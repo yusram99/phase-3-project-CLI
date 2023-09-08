@@ -45,16 +45,17 @@ python -m lib.cli.cli add-recipe --category Dinner
 python -m lib.cli.cli update-recipe
 
 5. Deleting a Recipe
-To delete a recipe, run the following command:
+- To delete a recipe, run the following command:
 python -m lib.cli.cli delete-recipe
-Follow the prompts to specify the recipe title and your username.
+- Follow the prompts to specify the recipe title and your username.
 
 6.  Sorting Recipes
-To sort recipes by title in ascending order, run the following command:
+- To sort recipes by title in ascending order, run the following command:
 python -m lib.cli.cli sort-recipes
 
-7.  view all the commands availabe 
-python -m lib.cli.cli --help
+7. The rating feature
+- To rate a recipe, use the following command:
+python -m lib.cli.cli rate-recipe
 
 8.  search-recipes command
 - To use the search-recipes command, run the following command:

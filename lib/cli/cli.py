@@ -183,5 +183,27 @@ def search_recipes(category, keyword):
 
     session.close()
 
+@cli.command()
+@click.option('--title', prompt='Recipe Title', help='Title of the recipe to rate')
+@click.option('--rating', type=int, prompt='Rating (1-5)', help='Rating for the recipe (1-5)')
+def rate_recipe(title, rating):
+    """Rate a recipe."""
+    session = Session()
+
+    # Find the recipe by title
+    recipe = session.query(Recipe).filter(Recipe.title == title).first()
+    
+    if recipe is None:
+        click.echo(f"Recipe '{title}' not found.")
+    else:
+        # Update the recipe's total_ratings and average_rating
+        recipe.total_ratings += 1
+        recipe.average_rating = ((recipe.average_rating * (recipe.total_ratings - 1)) + rating) / recipe.total_ratings
+        session.commit()
+        click.echo(f"Recipe '{title}' rated successfully.")
+
+    session.close()
+
+
 if __name__ == '__main__':
     cli()
