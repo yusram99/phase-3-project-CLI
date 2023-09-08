@@ -42,5 +42,7 @@ class Recipe(Base):
     category = relationship('Category', back_populates='recipes')
 
 # Create the database and tables
-engine = create_engine('sqlite:///data/recipe_manager.db')  # Use SQLite for simplicity
+engine = create_engine('sqlite:///recipe_manager.db')
 Base.metadata.create_all(engine)
+
+

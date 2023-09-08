@@ -25,29 +25,36 @@ pip install -r requirements.txt
 
 
 # Usage
-- Adding a Recipe
-To add a new recipe, run the following command:
+1. Adding a Recipe
+- To add a new recipe, run the following command:
 python -m lib.cli.cli add-recipe
 
-- Viewing Recipes
-To view all recipes, run the following command:
+2. Viewing Recipes
+- To view all recipes, run the following command:
 python -m lib.cli.cli view-recipes
 
-- To filter recipes by category, use the --category option.
-python -m lib.cli.cli view-recipes --category <category_name>
+3. To filter recipes by category, use the --category option.
+- python -m lib.cli.cli view-recipes --category <category_name>
+python -m lib.cli.cli add-recipe --category Breakfast
+python -m lib.cli.cli add-recipe --category Lunch
+python -m lib.cli.cli add-recipe --category Dinner
 
--Updating a Recipe
-To update an existing recipe, run the following command:
+
+4. Updating a Recipe
+- To update an existing recipe, run the following command:
 python -m lib.cli.cli update-recipe
 
-- Deleting a Recipe
+5. Deleting a Recipe
 To delete a recipe, run the following command:
 python -m lib.cli.cli delete-recipe
 Follow the prompts to specify the recipe title and your username.
 
-- Sorting Recipes
+6.  Sorting Recipes
 To sort recipes by title in ascending order, run the following command:
 python -m lib.cli.cli sort-recipes
+
+7.  view all the commands availabe 
+python -m lib.cli.cli --help
 
 # Configuration
 The project uses an SQLite database for data storage. You can configure the database connection in the lib.cli.cli script by modifying the create_engine line.

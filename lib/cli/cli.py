@@ -20,7 +20,8 @@ def cli():
 @click.option('--cooking-time', type=int, prompt='Cooking Time (minutes)', help='Cooking time in minutes')
 @click.option('--servings', type=int, prompt='Servings', help='Number of servings')
 @click.option('--username', prompt='Username', help='Username of the recipe creator')
-def add_recipe(title, ingredients, instructions, cooking_time, servings, username):
+@click.option('--category', prompt='Category', help='Category of the recipe')
+def add_recipe(title, ingredients, instructions, cooking_time, servings, username, category):
     """Add a new recipe."""
     session = Session()
 
@@ -30,11 +31,20 @@ def add_recipe(title, ingredients, instructions, cooking_time, servings, usernam
         user = User(username=username, password="your_password_here")
         session.add(user)
 
+    # Find or create the category
+    category_obj = session.query(Category).filter_by(name=category).first()
+    if category_obj is None:
+        category_obj = Category(name=category)
+        session.add(category_obj)
+
     # Create a Recipe object
-    recipe = Recipe(title=title, ingredients=ingredients, instructions=instructions, cooking_time=cooking_time, servings=servings, user=user)
+    recipe = Recipe(title=title, ingredients=ingredients, instructions=instructions, cooking_time=cooking_time, servings=servings, user=user, category=category_obj)
 
     # Add the recipe to the user's list of recipes
     user.recipes.append(recipe)
+
+    # Add the recipe to the category
+    category_obj.recipes.append(recipe)
 
     # Commit changes to the database
     session.commit()
@@ -115,9 +125,6 @@ def delete_recipe(title, username):
 
     session.close()
 
-if __name__ == '__main__':
-    cli()
-
 @cli.command()
 def sort_recipes():
     """Sort recipes by title in ascending order."""
@@ -134,3 +141,6 @@ def sort_recipes():
         click.echo('-' * 20)
 
     session.close()
+
+if __name__ == '__main__':
+    cli()
