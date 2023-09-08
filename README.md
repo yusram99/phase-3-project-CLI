@@ -38,7 +38,8 @@ python -m lib.cli.cli view-recipes
 python -m lib.cli.cli add-recipe --category Breakfast
 python -m lib.cli.cli add-recipe --category Lunch
 python -m lib.cli.cli add-recipe --category Dinner
-
+- You can also add a category. run this
+python -m lib.cli.cli add-recipe --category "name of the category"
 
 4. Updating a Recipe
 - To update an existing recipe, run the following command:
