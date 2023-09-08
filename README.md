@@ -56,6 +56,10 @@ python -m lib.cli.cli sort-recipes
 7.  view all the commands availabe 
 python -m lib.cli.cli --help
 
+8.  search-recipes command
+- To use the search-recipes command, run the following command:
+python -m lib.cli.cli search-recipes
+
 # Configuration
 The project uses an SQLite database for data storage. You can configure the database connection in the lib.cli.cli script by modifying the create_engine line.
 

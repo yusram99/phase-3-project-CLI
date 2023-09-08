@@ -13,6 +13,7 @@ Session = sessionmaker(bind=engine)
 def cli():
     """Recipe Manager CLI"""
 
+# Add recipe
 @cli.command()
 @click.option('--title', prompt='Recipe Title', help='Title of the recipe')
 @click.option('--ingredients', prompt='Ingredients', help='Ingredients of the recipe')
@@ -53,6 +54,7 @@ def add_recipe(title, ingredients, instructions, cooking_time, servings, usernam
     # Print a confirmation message
     click.echo(f"Recipe '{title}' added successfully by {username}.")
 
+# view all recipes
 @cli.command()
 @click.option('--category', help='Filter recipes by category')
 def view_recipes(category):
@@ -78,6 +80,7 @@ def view_recipes(category):
 
     session.close()
 
+# update an existing recipe
 @cli.command()
 @click.option('--title', prompt='Recipe Title', help='Title of the recipe to update')
 @click.option('--ingredients', prompt='Ingredients', help='Updated ingredients of the recipe')
@@ -105,7 +108,7 @@ def update_recipe(title, ingredients, instructions, cooking_time, servings, user
 
     session.close()
 
-
+# delete a recipe
 @cli.command()
 @click.option('--title', prompt='Recipe Title', help='Title of the recipe to delete')
 @click.option('--username', prompt='Username', help='Username of the recipe creator')
@@ -125,6 +128,7 @@ def delete_recipe(title, username):
 
     session.close()
 
+# sort recipes by title 
 @cli.command()
 def sort_recipes():
     """Sort recipes by title in ascending order."""
@@ -139,6 +143,43 @@ def sort_recipes():
         click.echo(f"Ingredients: {recipe.ingredients}")
         click.echo(f"Instructions: {recipe.instructions}")
         click.echo('-' * 20)
+
+    session.close()
+
+# search recipes
+@cli.command()
+@click.option('--category', help='Filter recipes by category')
+@click.option('--keyword', help='Keyword to search for in recipe title or ingredients')
+def search_recipes(category, keyword):
+    """Search and filter recipes based on category and keyword."""
+    session = Session()
+    query = session.query(Recipe)
+
+    if category:
+        # Filter recipes by category
+        query = query.join(Recipe.category).filter(Category.name == category)
+
+    if keyword:
+        # Search for recipes containing the keyword in title or ingredients
+        query = query.filter(
+            (Recipe.title.like(f"%{keyword}%")) | (Recipe.ingredients.like(f"%{keyword}%"))
+        )
+
+    # Retrieve and display matching recipes
+    recipes = query.all()
+
+    if not recipes:
+        click.echo("No matching recipes found.")
+    else:
+        # Print matching recipes
+        for recipe in recipes:
+            click.echo(f"Title: {recipe.title}")
+            click.echo(f"Ingredients: {recipe.ingredients}")
+            click.echo(f"Instructions: {recipe.instructions}")
+            click.echo(f"Cooking Time: {recipe.cooking_time} minutes")
+            click.echo(f"Servings: {recipe.servings}")
+            click.echo(f"Created by: {recipe.user.username}")
+            click.echo('-' * 20)
 
     session.close()
 
